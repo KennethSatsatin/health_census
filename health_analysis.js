@@ -5,7 +5,7 @@ const patients = [];
 
 function addPatient(){
     const name = document.getElementById("name").value;
-    const gender = document.querySelector('input[name="gender]:checked');
+    const gender = document.querySelector('input[name="gender"]:checked');
     const age = document.getElementById('age').value;
     const condition = document.getElementById("condition").value;
 
@@ -23,46 +23,42 @@ function resetForm(){
     document.getElementById("condition").value = "";
 }
 
-function generateReport(){
+function generateReport() {
     const numPatients = patients.length;
     const conditionsCount = {
+      Diabetes: 0,
+      Thyroid: 0,
+      "High Blood Pressure": 0,
+    };
+    const genderConditionsCount = {
+      Male: {
         Diabetes: 0,
         Thyroid: 0,
         "High Blood Pressure": 0,
+      },
+      Female: {
+        Diabetes: 0,
+        Thyroid: 0,
+        "High Blood Pressure": 0,
+      },
     };
-    const genderConditionsCount = {
-        Male: {
-            Diabetes: 0,
-            Thyroid: 0,
-            "High Blood Pressure": 0,
-        },
-        Female: {
-            Diabetes: 0,
-            Thyroid: 0,
-            "High Blood Pressure": 0,
-        },
-    };
-
     for (const patient of patients) {
-        conditionsCount[patient.condition]++;
-        genderConditionsCount[patient.gender][patient.condition]++;
+      conditionsCount[patient.condition]++;
+      genderConditionsCount[patient.gender][patient.condition]++;
     }
-
     report.innerHTML = `Number of patients: ${numPatients}<br><br>`;
     report.innerHTML += `Conditions Breakdown:<br>`;
     for (const condition in conditionsCount) {
-        report.innerHTML += `${condition}: ${conditionsCount[condition]}<br>`;
+      report.innerHTML += `${condition}: ${conditionsCount[condition]}<br>`;
     }
-
     report.innerHTML += `<br>Gender-Based Conditions:<br>`;
-    for (const gender in genderConditionsCount){
-        report.innerHTML += `${gender}:<br>`;
-        for (const condition in genderConditionsCount[gender]){
-            report.innerHTML += `&nbsp;&nbsp;${condition}: ${genderConditionsCount[gender][condition]}<br>`;
-        }
+    for (const gender in genderConditionsCount) {
+      report.innerHTML += `${gender}:<br>`;
+      for (const condition in genderConditionsCount[gender]) {
+        report.innerHTML += `&nbsp;&nbsp;${condition}: ${genderConditionsCount[gender][condition]}<br>`;
+      }
     }
-}
-
+  }
 addPatientButton.addEventListener("click", addPatient);
 
 function searchCondition(){
